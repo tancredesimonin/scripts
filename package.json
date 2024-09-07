@@ -1,0 +1,5 @@
+{
+  "devDependencies": {
+    "oclif": "^4.14.29"
+  }
+}
