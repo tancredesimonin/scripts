@@ -1,12 +1,4 @@
-# ghost-blog-export
-
-<!-- toc -->
-
-- [Usage](#usage)
-- [Commands](#commands)
-<!-- tocstop -->
-
-## Usage
+# 🚀 Ghost
 
 ### Build
 
@@ -14,16 +6,16 @@
 yarn build
 ```
 
-### Run commands
-
-```bash
-yarn run ghost <command>
-```
-
 ## Commands
 
-### hello [name]
+### export ghost data
 
 ```bash
-yarn run ghost hello world
+yarn run ghost export
 ```
+
+- validate ghost blog export json file
+- parse the ghost blog export json file
+- remove unpublished posts
+- remove pages
+- write each post to a markdown file in /export

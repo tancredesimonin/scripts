@@ -1,6 +1,6 @@
 {
   "name": "ghost-blog-export",
-  "description": "export ghost blog data",
+  "description": "ghost blogging util to export data to mdx",
   "version": "0.0.0",
   "author": "tancredesimonin",
   "bin": {
@@ -9,7 +9,8 @@
   "dependencies": {
     "@oclif/core": "^4",
     "@oclif/plugin-help": "^6",
-    "@oclif/plugin-plugins": "^5"
+    "@oclif/plugin-plugins": "^5",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@oclif/prettier-config": "^0.2.1",
@@ -50,13 +51,7 @@
     "plugins": [
       "@oclif/plugin-help",
       "@oclif/plugin-plugins"
-    ],
-    "topicSeparator": " ",
-    "topics": {
-      "hello": {
-        "description": "Say hello to the world and others"
-      }
-    }
+    ]
   },
   "scripts": {
     "build": "shx rm -rf dist && tsc -b",
