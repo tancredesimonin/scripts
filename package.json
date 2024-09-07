@@ -1,4 +1,9 @@
 {
+  "name": "scripts",
+  "description": "my useful scripts",
+  "version": "0.0.0",
+  "author": "tancredesimonin",
+  "license": "MIT",
   "devDependencies": {
     "oclif": "^4.14.29"
   }

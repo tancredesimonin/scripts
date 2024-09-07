@@ -6,7 +6,6 @@
   "bin": {
     "ghost-blog-export": "./bin/run.js"
   },
-  "bugs": "https://github.com/tancredesimonin/ghost-blog-export/issues",
   "dependencies": {
     "@oclif/core": "^4",
     "@oclif/plugin-help": "^6",
@@ -37,7 +36,7 @@
     "/dist",
     "/oclif.manifest.json"
   ],
-  "homepage": "https://github.com/tancredesimonin/ghost-blog-export",
+  "homepage": "https://github.com/tancredesimonin/scripts",
   "keywords": [
     "oclif"
   ],
@@ -59,7 +58,6 @@
       }
     }
   },
-  "repository": "tancredesimonin/ghost-blog-export",
   "scripts": {
     "build": "shx rm -rf dist && tsc -b",
     "lint": "eslint . --ext .ts",
@@ -67,7 +65,8 @@
     "posttest": "yarn lint",
     "prepack": "oclif manifest && oclif readme",
     "test": "mocha --forbid-only \"test/**/*.test.ts\"",
-    "version": "oclif readme && git add README.md"
+    "version": "oclif readme && git add README.md",
+    "ghost": "./bin/run.js"
   },
   "types": "dist/index.d.ts"
 }
