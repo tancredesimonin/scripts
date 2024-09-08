@@ -10,7 +10,11 @@
 
 - [Ghost blog export](/ghost-blog-export/README.md) - Export your Ghost blog to markdown files.
 
-## 🚀 Getting started
+### 📝 Typewriter
+
+- [Typewriter](/typewriter/README.md) - A simple CLI to manage ghostwriting with MDX files.
+
+## 🚀 Create a new CLI
 
 ```bash
 yarn oclif generate <name>
@@ -18,7 +22,7 @@ yarn oclif generate <name>
 
 ## Commands
 
-### generate new command
+### Create new command
 
 [📚 Documentation](https://oclif.io/docs/generator_commands)
 

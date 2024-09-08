@@ -14,8 +14,10 @@ yarn build
 yarn run ghost export
 ```
 
-- validate ghost blog export json file
-- parse the ghost blog export json file
-- remove unpublished posts
-- remove pages
-- write each post to a markdown file in /export
+### Steps done by the export script
+
+- ✅ validate ghost blog export json file
+- ✅ parse the ghost blog export json file
+- 🧹 remove unpublished posts
+- 🧹 remove pages
+- ✅ write each post to a markdown file in /export
