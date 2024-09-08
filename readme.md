@@ -3,6 +3,9 @@
 ## 📦 packages documentation
 
 - [Oclif](https://oclif.io/docs/introduction)
+- [Interactive CLI with Inquirer](https://www.npmjs.com/package/@inquirer/prompts)
+- [AI with vercel AI SDK](https://sdk.vercel.ai/docs/getting-started/nodejs)
+- [OpenAI Pricing](https://openai.com/api/pricing/)
 
 ## ✨ Scripts
 

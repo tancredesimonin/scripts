@@ -22,5 +22,6 @@ yarn run typewriter translate
 
 ### TODO
 
-- correct grammar and spelling in the article
-- translate the article
+- read the drafts folder
+- read the list of all posts in the folder
+- can select a post
