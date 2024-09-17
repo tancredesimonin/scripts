@@ -8,7 +8,7 @@ export default abstract class BaseCommand extends Command {
   protected project = {
     getConfig() {
       const projectFolder = '/Users/tancredo/code/blog/repository/content'
-      const draftsFolder = '/Users/tancredo/code/blog/repository/content/drafts'
+      const draftsFolder = '/Users/tancredo/code/blog/repository/content/articles/drafts'
       return {
         projectFolder,
         draftsFolder,
@@ -31,6 +31,14 @@ export default abstract class BaseCommand extends Command {
       return files.map((file) => ({
         name: file,
         value: file,
+        description: '',
+      }))
+    },
+
+    stringSelectorChoices(choices: {text: string}[]): {name: string; value: string; description: string}[] {
+      return choices.map((choice) => ({
+        name: choice.text,
+        value: choice.text,
         description: '',
       }))
     },
