@@ -14,6 +14,12 @@ yarn build
 yarn run typewriter spellcheck
 ```
 
+### Generate Catchline
+
+```bash
+yarn run typewriter generate catchline
+```
+
 ### Translate
 
 ```bash

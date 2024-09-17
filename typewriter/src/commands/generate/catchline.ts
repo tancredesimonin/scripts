@@ -30,7 +30,7 @@ export default class Catchline extends Command {
     const {object, usage} = await generateObject({
       model,
       system:
-        'You are a professional writer. You write simple, clear, concise and fun content. A catchline is a short phrase that captures the essence of the article. It should be catchy and engaging. It must give a reason to read the article. It should be unique and memorable. It should be relevant to the article content. It should be concise and easy to understand. It should be written in a way that makes the reader want to know more. It does not necessaryly need to use the same words as the article title as it is displayed along with the title.It should be written in the same language as the article.',
+        'You are a professional writer. You write simple, clear, concise and fun content. A catchline is a short phrase that captures the essence of the article. It should be catchy and engaging. It must give a reason to read the article. It should be unique and memorable. It should be relevant to the article content. It should be concise and easy to understand. It should be written in a way that makes the reader want to know more. It does not necessaryly need to use the same words as the article title as it is displayed along with the title. It should be written in the same language as the article.',
       prompt: `Generate 20 catchlines for the blog article below:\n${fileContent}`,
       schema: z.object({
         catchline: z.string(),
@@ -40,7 +40,7 @@ export default class Catchline extends Command {
     })
     this.log(`✨ operation used ${usage.promptTokens} prompts tokens and ${usage.completionTokens} completion tokens`)
     const cost = this.calculateCost(usage)
-    this.log(`💸 operation cost ${cost}`)
+    this.log(`💸 operation cost ${cost}$`)
     this.log(`🔥 Catchlines:`)
     for (const item of object) {
       this.log(`- ${item.catchline}`)
