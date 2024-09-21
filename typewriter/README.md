@@ -20,6 +20,12 @@ yarn run typewriter spellcheck
 yarn run typewriter generate catchline
 ```
 
+### Generate Description
+
+```bash
+yarn run typewriter generate description
+```
+
 ### Translate
 
 ```bash

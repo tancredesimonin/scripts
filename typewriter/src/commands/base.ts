@@ -2,61 +2,36 @@ import {createOpenAI} from '@ai-sdk/openai'
 import {Command} from '@oclif/core'
 import * as dotenv from 'dotenv'
 import {existsSync, readdirSync, mkdirSync} from 'node:fs'
+import {TypewriterManager} from 'typewriter-tools/manager'
 import {TypewriterServer} from 'typewriter-tools/server'
-import {TypewriterConfig} from 'typewriter-tools/shared'
+
+import {typewriterConfig} from '../shared/personal-blog.typewriter.config.js'
 dotenv.config()
-
-const BASE_URL = process.env.NEXT_PUBLIC_FRONTEND_BASE_URL ?? 'http://localhost:3000'
-
-export const supportedLocales = ['en', 'fr'] as const
-export type SupportedLocale = (typeof supportedLocales)[number]
-
-export const typewriterConfig: TypewriterConfig<SupportedLocale> = {
-  baseUrl: BASE_URL,
-  defaultLocale: 'en',
-  supportedLocales,
-  home: {
-    label: {
-      en: 'Home',
-      fr: 'Accueil',
-    },
-  },
-  series: {
-    segment: '/series',
-    label: {
-      en: 'Series',
-      fr: 'Séries',
-    },
-  },
-  categories: {
-    segment: '/categories',
-    label: {
-      en: 'Categories',
-      fr: 'Catégories',
-    },
-  },
-  tags: {
-    segment: '/tags',
-    label: {
-      en: 'Tags',
-      fr: 'Tags',
-    },
-  },
-  articles: {
-    segment: '/articles',
-    label: {
-      en: 'Articles',
-      fr: 'Articles',
-    },
-  },
-}
 
 export default abstract class BaseCommand extends Command {
   protected project = {
-    getTypewriter() {
-      const typewriter = new TypewriterServer(typewriterConfig)
-      return typewriter
+    typewriter() {
+      const manager = new TypewriterManager(typewriterConfig)
+      const drafts = new TypewriterServer({
+        ...typewriterConfig,
+        stage: 'drafts',
+      })
+
+      const published = new TypewriterServer({
+        ...typewriterConfig,
+        stage: 'published',
+      })
+
+      return {
+        manager,
+        drafts,
+        published,
+      }
     },
+
+    /**
+     * @deprecated
+     */
     getConfig() {
       const projectFolder = '/Users/tancredo/code/blog/repository/content'
       const draftsFolder = '/Users/tancredo/code/blog/repository/content/articles/drafts'
@@ -66,6 +41,9 @@ export default abstract class BaseCommand extends Command {
       }
     },
 
+    /**
+     * @deprecated
+     */
     validateDraftsFolder: () => {
       const {draftsFolder} = this.project.getConfig()
       this.log(`📁 Found existing drafts folder ${draftsFolder}`)
@@ -90,6 +68,14 @@ export default abstract class BaseCommand extends Command {
       return choices.map((choice) => ({
         name: choice.text,
         value: choice.text,
+        description: '',
+      }))
+    },
+
+    itemSelectorChoices(items: {title: string; slug: string}[]): {name: string; value: string; description: string}[] {
+      return items.map((item) => ({
+        name: item.title,
+        value: item.slug,
         description: '',
       }))
     },
