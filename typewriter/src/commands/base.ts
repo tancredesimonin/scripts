@@ -2,10 +2,61 @@ import {createOpenAI} from '@ai-sdk/openai'
 import {Command} from '@oclif/core'
 import * as dotenv from 'dotenv'
 import {existsSync, readdirSync, mkdirSync} from 'node:fs'
+import {TypewriterServer} from 'typewriter-tools/server'
+import {TypewriterConfig} from 'typewriter-tools/shared'
 dotenv.config()
+
+const BASE_URL = process.env.NEXT_PUBLIC_FRONTEND_BASE_URL ?? 'http://localhost:3000'
+
+export const supportedLocales = ['en', 'fr'] as const
+export type SupportedLocale = (typeof supportedLocales)[number]
+
+export const typewriterConfig: TypewriterConfig<SupportedLocale> = {
+  baseUrl: BASE_URL,
+  defaultLocale: 'en',
+  supportedLocales,
+  home: {
+    label: {
+      en: 'Home',
+      fr: 'Accueil',
+    },
+  },
+  series: {
+    segment: '/series',
+    label: {
+      en: 'Series',
+      fr: 'Séries',
+    },
+  },
+  categories: {
+    segment: '/categories',
+    label: {
+      en: 'Categories',
+      fr: 'Catégories',
+    },
+  },
+  tags: {
+    segment: '/tags',
+    label: {
+      en: 'Tags',
+      fr: 'Tags',
+    },
+  },
+  articles: {
+    segment: '/articles',
+    label: {
+      en: 'Articles',
+      fr: 'Articles',
+    },
+  },
+}
 
 export default abstract class BaseCommand extends Command {
   protected project = {
+    getTypewriter() {
+      const typewriter = new TypewriterServer(typewriterConfig)
+      return typewriter
+    },
     getConfig() {
       const projectFolder = '/Users/tancredo/code/blog/repository/content'
       const draftsFolder = '/Users/tancredo/code/blog/repository/content/articles/drafts'

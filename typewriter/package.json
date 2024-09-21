@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "author": "tancredesimonin",
   "bin": {
-    "typewriter": "./bin/run.js"
+    "typewriter": "./bin/run.mjs"
   },
   "bugs": "https://github.com/scripts/typewriter/issues",
   "dependencies": {
@@ -16,6 +16,7 @@
     "ai": "^3.3.28",
     "dotenv": "^16.4.5",
     "openai": "^4.58.1",
+    "typewriter-tools": "^1.1.20",
     "zod": "^3.23.8"
   },
   "devDependencies": {
@@ -75,7 +76,7 @@
     "prepack": "oclif manifest && oclif readme",
     "test": "mocha --forbid-only \"test/**/*.test.ts\"",
     "version": "oclif readme && git add README.md",
-    "typewriter": "./bin/run.js"
+    "typewriter": "./bin/run.mjs"
   },
   "types": "dist/index.d.ts"
 }
