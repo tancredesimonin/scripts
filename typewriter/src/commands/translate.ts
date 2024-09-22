@@ -8,27 +8,27 @@ import {z} from 'zod'
 import BaseCommand from './base.js'
 dotenv.config()
 
-export default class Spellcheck extends BaseCommand {
-  static override description = 'Spellcheck a given blog article'
+export default class Translate extends BaseCommand {
+  static override description = 'Translate a given blog article'
 
   public async run(): Promise<void> {
     const {articles} = this.project.typewriter().drafts.content.articles.all()
 
     const articleSlug = await select({
-      message: 'Select the article to spellcheck',
+      message: 'Select the article to translate',
       choices: this.prompt.itemSelectorChoices(articles),
     })
 
-    ux.action.start(`✨ Spellchecking ${articleSlug}`)
+    ux.action.start(`✨ Translating ${articleSlug}`)
 
     const {article} = this.project.typewriter().drafts.content.articles.bySlug(articleSlug, 'fr')
 
-    const {object: spellcheck, usage} = await generateObject({
+    const {object: translation, usage} = await generateObject({
       model: this.ia.models.gpt4o(),
 
       system:
         'You are a professional writer. You write simple, clear, concise and professional content. You are writing for top level CTOs or VPs of engineering.',
-      prompt: `Spellcheck the blog article below:\ntitle: ${article.title}\ncatchline: ${article.catchline}\ndescription: ${article.description}\ncontent:${article.content}`,
+      prompt: `Translate the blog article below to English. Keep the same tone of voice as the article:\ntitle: ${article.title}\ncatchline: ${article.catchline}\ndescription: ${article.description}\ncontent:${article.content}`,
       schema: z.object({
         title: z.string(),
         catchline: z.string(),
@@ -43,14 +43,15 @@ export default class Spellcheck extends BaseCommand {
 
     const updatedArticle = {
       ...article,
-      title: spellcheck.title,
-      catchline: spellcheck.catchline,
-      description: spellcheck.description,
-      content: spellcheck.content,
+      locale: 'en',
+      title: translation.title,
+      catchline: translation.catchline,
+      description: translation.description,
+      content: translation.content,
       updatedAt: formatDate(new Date().toISOString())!,
     }
 
     this.project.typewriter().manager.articles.upsert(updatedArticle, 'drafts')
-    this.log(`✅ Spellchecked ${articleSlug}`)
+    this.log(`✅ Translated ${articleSlug}`)
   }
 }

@@ -24,7 +24,8 @@ export default class Description extends BaseCommand {
     const {article} = this.project.typewriter().drafts.content.articles.bySlug(articleSlug, 'fr')
 
     const {object: descriptions, usage} = await generateObject({
-      model: this.ia.models.gptMini(),
+      model: this.ia.models.gpt4o(),
+
       system:
         'You are a professional SEO writer. You write simple, clear, concise and professional content. You know how to write a good meta description. You are writing for top level CTOs or VPs of engineering.',
       prompt: `Generate 5 meta descriptions for the blog article below (in the same language as the article). You keep the same tone of voice as the article. You don't need to use the same words as the article title and catchline because they are displayed along with the description you are writing:\ntitle: ${article.title}\n${article.content}`,
@@ -36,7 +37,7 @@ export default class Description extends BaseCommand {
     })
 
     ux.action.stop()
-    this.ia.logUsage(usage)
+    this.ia.logUsage(this.ia.models.gpt4o(), usage)
 
     const selectedDescription = await select({
       message: 'Select the description you prefer',

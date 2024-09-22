@@ -36,7 +36,7 @@ export default class Catchline extends BaseCommand {
     })
 
     ux.action.stop()
-    this.ia.logUsage(usage)
+    this.ia.logUsage(this.ia.models.gptMini(), usage)
 
     const selectedCatchline = await select({
       message: 'Select the catchline you prefer',
