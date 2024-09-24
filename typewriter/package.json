@@ -16,7 +16,7 @@
     "ai": "^3.3.28",
     "dotenv": "^16.4.5",
     "openai": "^4.58.1",
-    "typewriter-tools": "^1.1.24",
+    "typewriter-tools": "^1.1.33",
     "zod": "^3.23.8"
   },
   "devDependencies": {

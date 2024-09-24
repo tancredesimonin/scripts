@@ -2,7 +2,7 @@ import {createOpenAI} from '@ai-sdk/openai'
 import {Command} from '@oclif/core'
 import {LanguageModelV1} from 'ai'
 import * as dotenv from 'dotenv'
-import {existsSync, readdirSync, mkdirSync} from 'node:fs'
+import {readdirSync} from 'node:fs'
 import {TypewriterManager} from 'typewriter-tools/manager'
 import {TypewriterServer} from 'typewriter-tools/server'
 
@@ -24,25 +24,10 @@ export default abstract class BaseCommand extends Command {
       })
 
       return {
+        config: typewriterConfig,
         manager,
         drafts,
         published,
-      }
-    },
-
-    getConfig() {
-      // Consider moving these paths to environment variables or a configuration file
-      const projectFolder = '/Users/tancredo/code/blog/repository/content'
-      const draftsFolder = '/Users/tancredo/code/blog/repository/content/articles/drafts'
-      return {projectFolder, draftsFolder}
-    },
-
-    validateDraftsFolder: () => {
-      const {draftsFolder} = this.project.getConfig()
-      this.log(`📁 Found existing drafts folder ${draftsFolder}`)
-      if (!existsSync(draftsFolder)) {
-        this.log(`📁 Creating drafts folder ${draftsFolder}`)
-        mkdirSync(draftsFolder, {recursive: true})
       }
     },
   }
