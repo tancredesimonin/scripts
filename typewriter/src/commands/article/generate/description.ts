@@ -5,7 +5,7 @@ import * as dotenv from 'dotenv'
 import {formatDate} from 'typewriter-tools/shared'
 import {z} from 'zod'
 
-import BaseCommand from '../base.js'
+import BaseCommand from '../../base.js'
 dotenv.config()
 
 export default class Description extends BaseCommand {
@@ -19,21 +19,34 @@ export default class Description extends BaseCommand {
       choices: this.prompt.itemSelectorChoices(articles),
     })
 
-    ux.action.start(`✨ Generating 3 descriptions for ${articleSlug}`)
+    ux.action.start(`✨ Generating 10 descriptions for ${articleSlug}`)
 
     const {article} = this.project.typewriter().drafts.content.articles.bySlug(articleSlug, 'fr')
 
     const {object: descriptions, usage} = await generateObject({
       model: this.ia.models.gpt4o(),
 
-      system:
-        'You are a professional SEO writer. You write simple, clear, concise and professional content. You know how to write a good meta description. You are writing for top level CTOs or VPs of engineering.',
-      prompt: `Generate 5 meta descriptions for the blog article below (in the same language as the article). You keep the same tone of voice as the article. You don't need to use the same words as the article title and catchline because they are displayed along with the description you are writing:\ntitle: ${article.title}\n${article.content}`,
+      system: this.ia.personas.author.description,
+      prompt: `
+      In SEO, a meta description is a short description of the page that is displayed in the search results. 
+      It is used to attract the attention of the user to the article.
+      It should be concise and easy to understand.
+      It should be written in the same language as the article.
+      
+      generate 10 meta descriptions for the blog article below. 
+      
+      - You will keep the same tone of voice as the article. 
+      - You don't need to repeat what the title says because it will always be displayed along.
+      
+      <article>
+      title: ${article.title}
+      ${article.content}
+      </article>`,
       schema: z.object({
         text: z.string(),
       }),
       output: 'array',
-      temperature: 0.5,
+      temperature: this.ia.temperature.creative,
     })
 
     ux.action.stop()
