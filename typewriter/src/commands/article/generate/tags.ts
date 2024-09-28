@@ -14,7 +14,7 @@ export default class Tags extends BaseCommand {
   static override description = 'Generate tags for a given blog article'
 
   public async run(): Promise<void> {
-    const {articles} = this.project.typewriter().drafts.content.articles.all()
+    const {articles} = this.project.typewriter().drafts.content.articles.allByLocale('fr')
 
     const articleSlug = await select({
       message: 'Select the article to generate tags',
@@ -24,7 +24,7 @@ export default class Tags extends BaseCommand {
     ux.action.start(`✨ Suggesting existing tags for ${articleSlug}`)
 
     const {article} = this.project.typewriter().drafts.content.articles.bySlug(articleSlug, 'fr')
-    const {tags: existingTags} = this.project.typewriter().published.content.tags.all()
+    const {tags: existingTags} = this.project.typewriter().published.content.tags.allByLocale('fr')
     const existingTagsListAsString = existingTags.map((tag) => tag.slug).join(', ')
 
     let selectedExistingTags: string[] = []

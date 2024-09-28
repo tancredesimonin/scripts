@@ -12,7 +12,7 @@ export default class Catchline extends BaseCommand {
   static override description = 'Generate a catchline for a given blog article'
 
   public async run(): Promise<void> {
-    const {articles} = this.project.typewriter().drafts.content.articles.all()
+    const {articles} = this.project.typewriter().drafts.content.articles.allByLocale('fr')
 
     const articleSlug = await select({
       message: 'Select the article to generate catchline',

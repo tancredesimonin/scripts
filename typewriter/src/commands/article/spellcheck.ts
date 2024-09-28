@@ -5,6 +5,7 @@ import * as dotenv from 'dotenv'
 import {formatDate} from 'typewriter-tools/shared'
 import {z} from 'zod'
 
+import {supportedLocales} from '../../shared/personal-blog.typewriter.config.js'
 import BaseCommand from '../base.js'
 dotenv.config()
 
@@ -12,16 +13,21 @@ export default class Spellcheck extends BaseCommand {
   static override description = 'Spellcheck a given blog article'
 
   public async run(): Promise<void> {
-    const {articles} = this.project.typewriter().drafts.content.articles.all()
+    const {articles} = this.project.typewriter().drafts.content.articles.allByLocale('fr')
 
     const articleSlug = await select({
       message: 'Select the article to spellcheck',
       choices: this.prompt.itemSelectorChoices(articles),
     })
 
-    ux.action.start(`✨ Spellchecking ${articleSlug}`)
+    const locale = await select({
+      message: 'Select the locale of the article to spellcheck',
+      choices: supportedLocales.map((locale) => ({text: locale, value: locale})),
+    })
 
-    const {article} = this.project.typewriter().drafts.content.articles.bySlug(articleSlug, 'fr')
+    ux.action.start(`✨ Spellchecking ${articleSlug} in ${locale}`)
+
+    const {article} = this.project.typewriter().drafts.content.articles.bySlug(articleSlug, locale)
 
     const {object: spellcheck, usage} = await generateObject({
       model: this.ia.models.gpt4o(),
@@ -30,12 +36,7 @@ export default class Spellcheck extends BaseCommand {
       prompt: `
       Spellcheck the blog article content below.
 
-      - You will correct grammar, spelling and punctuation mistakes.
-      - You will not change the meaning of the text.
-      - You will do that task in the same language as the text provided.
-      - If the given text is between "" like "blabla" you will remove the extra " to return only the text inside.
-      - if for any reason in one of the field there is a string "undefined" you will replace it by an empty string.
-      - The content is markdown formatted. You will not change the markdown formatting.
+      ${this.ia.prompts.spellcheck.rules}
       
       <article>
       title: ${article.title}
@@ -66,6 +67,6 @@ export default class Spellcheck extends BaseCommand {
     }
 
     this.project.typewriter().manager.articles.upsert(updatedArticle, 'drafts')
-    this.log(`✅ Spellchecked ${articleSlug}`)
+    this.log(`✅ Spellchecked ${articleSlug} in ${locale}`)
   }
 }

@@ -5,6 +5,7 @@ import * as dotenv from 'dotenv'
 import {formatDate} from 'typewriter-tools/shared'
 import {z} from 'zod'
 
+import {supportedLocales} from '../../shared/personal-blog.typewriter.config.js'
 import BaseCommand from '../base.js'
 dotenv.config()
 
@@ -12,16 +13,21 @@ export default class Spellcheck extends BaseCommand {
   static override description = 'Spellcheck a given tag'
 
   public async run(): Promise<void> {
-    const {tags} = this.project.typewriter().drafts.content.tags.all()
+    const {tags} = this.project.typewriter().drafts.content.tags.allByLocale('fr')
 
     const tagSlug = await select({
       message: 'Select the tag to spellcheck',
       choices: this.prompt.itemSelectorChoices(tags),
     })
 
+    const locale = await select({
+      message: 'Select the locale of the tag to spellcheck',
+      choices: supportedLocales.map((locale) => ({text: locale, value: locale})),
+    })
+
     ux.action.start(`✨ Spellchecking ${tagSlug}`)
 
-    const {tag} = this.project.typewriter().drafts.content.tags.bySlug(tagSlug, 'fr')
+    const {tag} = this.project.typewriter().drafts.content.tags.bySlug(tagSlug, locale)
 
     const {object: spellcheck, usage} = await generateObject({
       model: this.ia.models.gpt4o(),
@@ -30,12 +36,7 @@ export default class Spellcheck extends BaseCommand {
       prompt: `
       Spellcheck the tag content below. (the tag is used in the context of a blog)
 
-      - You will correct grammar, spelling and punctuation mistakes.
-      - You will not change the meaning of the text.
-      - You will do that task in the same language as the text provided.
-      - If the given text is between "" like "blabla" you will remove the extra " to return only the text inside.
-      - if for any reason in one of the field there is a string "undefined" you will replace it by an empty string.
-      - The content is markdown formatted. You will not change the markdown formatting.
+      ${this.ia.prompts.spellcheck.rules}
       
       <tag>
       title: ${tag.title}

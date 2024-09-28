@@ -87,6 +87,19 @@ export default abstract class BaseCommand extends Command {
       },
     },
 
+    prompts: {
+      spellcheck: {
+        rules: `
+      - You will correct grammar, spelling, syntax and punctuation mistakes.
+      - You will not change the meaning of the text.
+      - You will do that task in the same language as the text provided.
+      - You can slightly rephrase or clarify some sentences if a sentence is not clear or if it is not written in a way that is easy to understand, or seems to have been translated by a machine and is not written in a natural way.
+      - If the given text is between "" like "blabla" you will remove the extra " to return only the text inside.
+      - if for any reason in one of the field there is a string "undefined" you will replace it by an empty string.
+      - The content is markdown formatted. You will not change the markdown formatting.`,
+      },
+    },
+
     calculateCost(
       usage: {promptTokens: number; completionTokens: number},
       price: {input: number; output: number},

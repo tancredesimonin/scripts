@@ -6129,10 +6129,10 @@ typescript@^5:
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.5.4.tgz#d9852d6c82bad2d2eda4fd74a5762a8f5909e9ba"
   integrity sha512-Mtq29sKDAEYP7aljRgtPOpTvOfbwRWlS6dPRzwjdE+C0R4brX/GUyhHSecbHMFLNBLcJIPt9nl9yG5TZ1weH+Q==
 
-typewriter-tools@^1.1.37:
-  version "1.1.37"
-  resolved "https://registry.yarnpkg.com/typewriter-tools/-/typewriter-tools-1.1.37.tgz#25483117a98ebbd635589cf76bd6cdaab876e75b"
-  integrity sha512-em+NQDsgUvSirEfEcPJRGApCxuVkLBtT0ECK94x2jxkjWPTIcjWRc6iYMKxos0a4XK1+60bZ2TypKGkthPehhQ==
+typewriter-tools@^1.1.38:
+  version "1.1.38"
+  resolved "https://registry.yarnpkg.com/typewriter-tools/-/typewriter-tools-1.1.38.tgz#21dd564bfdea6784bb1819e03e92fa03e9cfec9d"
+  integrity sha512-omZVBnc4M3NoQoivnkat2JcZQ3LgZv/Mi3VI385HbTGISixe0n1ZBvZKZPmqBqqmAHcNbf7HQfR42XPBKjRbWw==
 
 unbox-primitive@^1.0.2:
   version "1.0.2"

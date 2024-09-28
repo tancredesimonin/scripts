@@ -2,7 +2,7 @@ import {TypewriterConfig} from 'typewriter-tools'
 
 const BASE_URL = 'http://localhost:3000'
 
-export const supportedLocales = ['en', 'fr'] as const
+export const supportedLocales = ['en', 'fr', 'pt', 'es'] as const
 export type SupportedLocale = (typeof supportedLocales)[number]
 
 export const typewriterConfig: TypewriterConfig<SupportedLocale> = {
@@ -14,6 +14,8 @@ export const typewriterConfig: TypewriterConfig<SupportedLocale> = {
     label: {
       en: 'Home',
       fr: 'Accueil',
+      pt: 'Início',
+      es: 'Inicio',
     },
   },
   series: {
@@ -21,6 +23,8 @@ export const typewriterConfig: TypewriterConfig<SupportedLocale> = {
     label: {
       en: 'Series',
       fr: 'Séries',
+      pt: 'Séries',
+      es: 'Series',
     },
   },
   categories: {
@@ -28,6 +32,8 @@ export const typewriterConfig: TypewriterConfig<SupportedLocale> = {
     label: {
       en: 'Categories',
       fr: 'Catégories',
+      pt: 'Categorias',
+      es: 'Categorías',
     },
   },
   tags: {
@@ -35,6 +41,8 @@ export const typewriterConfig: TypewriterConfig<SupportedLocale> = {
     label: {
       en: 'Tags',
       fr: 'Tags',
+      pt: 'Tags',
+      es: 'Tags',
     },
   },
   articles: {
@@ -42,6 +50,8 @@ export const typewriterConfig: TypewriterConfig<SupportedLocale> = {
     label: {
       en: 'Articles',
       fr: 'Articles',
+      pt: 'Artigos',
+      es: 'Artículos',
     },
   },
 }

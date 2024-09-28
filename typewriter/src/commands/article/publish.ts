@@ -32,6 +32,8 @@ export default class Publish extends BaseCommand {
       this.log(`✅ ${articleSlug} published for ${locale}`)
     }
 
+    // TODO validate if the tags, category and serie are published
+
     ux.action.stop()
     this.log(`✅ ${articleSlug} published`)
   }
