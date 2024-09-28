@@ -5,7 +5,6 @@ import * as dotenv from 'dotenv'
 import {formatDate} from 'typewriter-tools/shared'
 import {z} from 'zod'
 
-import {supportedLocales} from '../../shared/personal-blog.typewriter.config.js'
 import BaseCommand from '../base.js'
 dotenv.config()
 
@@ -13,6 +12,7 @@ export default class Spellcheck extends BaseCommand {
   static override description = 'Spellcheck a given blog article'
 
   public async run(): Promise<void> {
+    const {supportedLocales} = this.project.typewriter().config
     const {articles} = this.project.typewriter().drafts.content.articles.allByLocale('fr')
 
     const articleSlug = await select({
