@@ -9,10 +9,8 @@ export default class Setup extends BaseCommand {
   public async run(): Promise<void> {
     this.log('⚙️ Setting up typewriter with articles, categories, tags and series')
 
-    this.project.typewriter().manager.articles.setup()
-    this.project.typewriter().manager.categories.setup()
-    this.project.typewriter().manager.tags.setup()
-    this.project.typewriter().manager.series.setup()
+    this.project.typewriter().manager.setup()
+    this.project.typewriter().manager.forceFileCreation()
 
     this.log('✅ Typewriter setup')
   }
