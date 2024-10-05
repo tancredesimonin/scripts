@@ -29,8 +29,8 @@ export default class Description extends BaseCommand {
       system: this.ia.personas.author.description,
       prompt: `
       In SEO, a meta description is a short description of the page that is displayed in the search results. 
-      It is used to attract the attention of the user to the article.
-      It should be concise and easy to understand.
+      It is used to attract the attention of the user to the article. 
+      It should summarize what is the article about.
       It should be written in the same language as the article.
       
       generate 10 meta descriptions for the blog article below. 
@@ -55,7 +55,7 @@ export default class Description extends BaseCommand {
     const selectedDescription = await select({
       message: 'Select the description you prefer',
       choices: this.prompt.stringSelectorChoices(descriptions),
-      pageSize: 5,
+      pageSize: 10,
     })
 
     const updatedArticle = {

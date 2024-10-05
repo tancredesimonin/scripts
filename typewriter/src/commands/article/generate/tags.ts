@@ -62,7 +62,7 @@ export default class Tags extends BaseCommand {
       this.ia.logUsage(this.ia.models.gpt4o(), usage)
 
       selectedExistingTags = await checkbox({
-        message: 'Select the tags you prefer',
+        message: 'Select the existing tags you prefer',
         choices: this.prompt.stringSelectorChoices(suggestedExistingTags),
         pageSize: 8,
       })
@@ -122,7 +122,7 @@ export default class Tags extends BaseCommand {
     ux.action.stop()
 
     const selectedNewTags = await checkbox({
-      message: 'Select the tags you prefer',
+      message: 'Select the new tags to create',
       choices: this.prompt.stringSelectorChoices(suggestedNewTags),
       pageSize: 8,
     })
@@ -148,18 +148,6 @@ export default class Tags extends BaseCommand {
     for (const tag of selectedNewTags) {
       this.log(`➕ Creating tag ${tag}`)
 
-      this.log(
-        terminalLink('https://tailwindcss.com/docs/customizing-colors', '🔎 TailwindCSS documentation for colors'),
-      )
-
-      const color = await select<Color>({
-        message: 'Select the color of the tag',
-        choices: this.project.typewriter().manager.options.colors.map((color) => ({
-          text: color,
-          value: color,
-        })),
-      })
-
       this.log(terminalLink('https://lucide.dev/icons/?focus', '🔎 Lucid icons website for documentation'))
 
       const icon = await search<IconName>({
@@ -181,6 +169,18 @@ export default class Tags extends BaseCommand {
         },
       })
 
+      this.log(
+        terminalLink('https://tailwindcss.com/docs/customizing-colors', '🔎 TailwindCSS documentation for colors'),
+      )
+
+      const color = await select<Color>({
+        message: 'Select the color of the tag',
+        choices: this.project.typewriter().manager.options.colors.map((color) => ({
+          text: color,
+          value: color,
+        })),
+      })
+
       ux.action.start(`✨ Generating titles for ${tag}`)
 
       const {object: generatedTitles} = await generateObject({
@@ -192,27 +192,26 @@ export default class Tags extends BaseCommand {
       The tag is a word that is used to describe the content of the article.
       It is a way for Search engines to classify article, as well as users to find articles on topics they are interested in.
 
-      I will give you a template or example of what you should write for the page title for the content of my blog classified with the tag.
+      I will give you a template and an example of what you should write for the page title for the content of my blog classified with the tag. very often the tag is the title itself, with uppercase first letter. For technical tags, it is often in english.
 
-      Based on that template you will suggest me 5 variants of that title.
+      Generate a list of up to 10 titles for the given tag.
 
-      You will write in french. You may translate the tag itself from english to french when it makes sense.
-      As in the template, it should be generic and very simple.
-
+      - You will write in french.
+      - You may translate the tag itself from english to french when it makes sense.
+      
       <tag>
       tag: ${tag}
       </tag>
-      
-      <suggestion>
-      Tout ce que je partage sur ${tag}
-      </suggestion>
 
       example:
       given tag: backend
-      => Tout ce que je partage sur le backend
+      => Backend
+      or
+      given tag: backend-architecture
+      => Architecture backend
       `,
         schema: z.object({
-          text: z.string(),
+          title: z.string(),
         }),
         output: 'array',
         temperature: this.ia.temperature.precise,
@@ -222,7 +221,10 @@ export default class Tags extends BaseCommand {
 
       const selectedTitle = await select<string>({
         message: 'Select the title you prefer',
-        choices: this.prompt.stringSelectorChoices(generatedTitles),
+        choices: generatedTitles.map((item) => ({
+          text: item.title,
+          value: item.title,
+        })),
       })
 
       ux.action.start(`✨ Generating catchlines for ${tag}`)
@@ -236,12 +238,12 @@ export default class Tags extends BaseCommand {
       The tag is a word that is used to describe the content of the article.
       It is a way for Search engines to classify article, as well as users to find articles on topics they are interested in.
 
-      I will give you a template or example of what you should write for the catchline for the content of my blog classified with the tag.
+      I will give you a template and an example of what you should write for the catchline for the content of my blog classified with the tag.
 
-      Based on that template you will suggest me 10 variants of that catchline.
-
-      You will write in french. You may translate the tag itself from english to french when it makes sense.
-      As in the template, it should be generic and very simple.
+      Generate a list of up to 10 catchlines for the given tag.
+      - You will write in french.
+      - You may translate the tag itself from english to french when it makes sense.
+      - As in the template, it should be generic and very simple.
       
       <tag>
       tag: ${tag}
@@ -259,7 +261,7 @@ export default class Tags extends BaseCommand {
           text: z.string(),
         }),
         output: 'array',
-        temperature: this.ia.temperature.creative,
+        temperature: this.ia.temperature.precise,
       })
 
       ux.action.stop()
@@ -269,7 +271,7 @@ export default class Tags extends BaseCommand {
         choices: this.prompt.stringSelectorChoices(generatedCatchlines),
       })
 
-      ux.action.start(`✨ Generating catchlines for ${tag}`)
+      ux.action.start(`✨ Generating descriptions for ${tag}`)
 
       const {object: generatedDescriptions} = await generateObject({
         model: this.ia.models.gpt4o(),
@@ -282,10 +284,11 @@ export default class Tags extends BaseCommand {
 
       I will give you a template or example of what you should write for the description for the content of my blog classified with the tag.
 
-      Based on that template you will suggest me 10 variants of that description.
+      Generate a list of up to 10 descriptions for the given tag.
 
-      You will write in french. You may translate the tag itself from english to french when it makes sense.
-      As in the template, it should be generic and very simple.
+      - You will write in french.
+      - You may translate the tag itself from english to french when it makes sense.
+      - As in the template, it should be generic and very simple.
 
       <tag>
       tag: ${tag}
@@ -300,17 +303,20 @@ export default class Tags extends BaseCommand {
       => Tous les articles et contenus en rapport avec le backend
       `,
         schema: z.object({
-          text: z.string(),
+          description: z.string(),
         }),
         output: 'array',
-        temperature: this.ia.temperature.creative,
+        temperature: this.ia.temperature.precise,
       })
 
       ux.action.stop()
 
       const selectedDescription = await select<string>({
         message: 'Select the description you prefer',
-        choices: this.prompt.stringSelectorChoices(generatedDescriptions),
+        choices: generatedDescriptions.map((item) => ({
+          text: item?.description,
+          value: item.description,
+        })),
       })
 
       this.project.typewriter().manager.tags.upsert(

@@ -22,15 +22,11 @@ export default class Catchline extends BaseCommand {
     ux.action.start(`✨ Generating 20 catchline for ${articleSlug}`)
 
     const {article} = this.project.typewriter().drafts.content.articles.bySlug(articleSlug, 'fr')
-
     const {object: catchlines, usage} = await generateObject({
       model: this.ia.models.gptMini(),
       system: this.ia.personas.author.description,
       prompt: `
       A catchline is a short phrase that catch the attention of someone in order to give a reason to read the article.
-      It should be catchy and engaging.
-      It should be relevant to the article content. 
-      It should be concise and easy to understand. 
       It should be written in a way that makes the reader want to know more. 
       It does not necessaryly need to use the same words as the article title as it is displayed along with the title. 
       It should be written in the same language as the article.

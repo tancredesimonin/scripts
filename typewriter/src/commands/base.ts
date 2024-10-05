@@ -91,6 +91,8 @@ export default abstract class BaseCommand extends Command {
       spellcheck: {
         rules: `
       - You will correct grammar, spelling, syntax and punctuation mistakes.
+      - When using : in sentences like "et maintenant: le code", you will never put a space before the colon and remove it if necessary.
+      - When using () in sentences like "et maintenant (le code)", you will never put a space inside the parenthesis and remove it if necessary. "(le code)" is good, "( le code )" is bad.
       - You will not change the meaning of the text.
       - You will do that task in the same language as the text provided.
       - You can slightly rephrase or clarify some sentences if a sentence is not clear or if it is not written in a way that is easy to understand, or seems to have been translated by a machine and is not written in a natural way.
